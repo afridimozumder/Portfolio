@@ -1,23 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
 ---
 
 <BaseLayout>
+  <Hero />
   {/*
-    Empty styled shell. Home sections (Hero → About → Focus → Experience →
-    Education → Projects → Certifications → Photography teaser → Contact)
-    are built one at a time in Phase 3.
+    Remaining home sections (About → Focus → Experience → Education → Projects →
+    Certifications → Photography teaser → Contact) are built next, one at a time.
   */}
-  <section class="container-page flex min-h-[60vh] flex-col justify-center py-[var(--spacing-section)]">
-    <p class="text-sm font-medium uppercase tracking-[0.2em] text-accent">
-      Shell ready
-    </p>
-    <h1 class="mt-4 max-w-3xl text-[length:var(--text-display)] leading-[var(--text-display--line-height)]">
-      The styled shell is wired up.
-    </h1>
-    <p class="mt-5 max-w-xl text-lg text-muted">
-      Fonts, colour tokens, light/dark mode, navigation, and the content layer
-      are in place. Sections get built next, one at a time.
-    </p>
-  </section>
 </BaseLayout>

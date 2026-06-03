@@ -1,0 +1,159 @@
+---
+import { Image } from "astro:assets";
+import { site } from "../../data/site";
+import Icon from "../ui/Icon.astro";
+import headshot from "../../assets/headshot.jpg";
+
+const socials = [
+  { label: "LinkedIn", href: site.links.linkedin, icon: "linkedin" as const, external: true },
+  { label: "GitHub", href: site.links.github, icon: "github" as const, external: true },
+  { label: "Email", href: `mailto:${site.email}`, icon: "mail" as const, external: false },
+];
+---
+
+<section id="top" class="relative overflow-hidden">
+  {/* Quiet atmosphere — a single soft accent glow, chrome stays calm. */}
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div
+      class="absolute -right-32 -top-40 h-[34rem] w-[34rem] rounded-full bg-accent-soft opacity-70 blur-3xl"
+    >
+    </div>
+  </div>
+
+  <div
+    class="container-page grid grid-cols-1 items-center gap-12 py-[var(--spacing-section)] lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-16"
+  >
+    {/* Copy */}
+    <div class="lg:order-1">
+      <p
+        class="reveal flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-accent sm:text-sm"
+        style="--i:0"
+      >
+        <span class="h-px w-8 bg-accent"></span>
+        {site.positioning}
+      </p>
+
+      <h1
+        class="reveal mt-6 text-[length:var(--text-display)] leading-[var(--text-display--line-height)] tracking-[-0.02em]"
+        style="--i:1"
+      >
+        {site.name}
+      </h1>
+
+      <p
+        class="reveal mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted sm:text-xl"
+        style="--i:2"
+      >
+        {site.tagline}
+      </p>
+
+      <p
+        class="reveal mt-6 flex items-center gap-2 text-sm text-faint"
+        style="--i:3"
+      >
+        <Icon name="pin" class="h-4 w-4 text-accent" />
+        {site.location}
+      </p>
+
+      <div class="reveal mt-9 flex flex-wrap items-center gap-3" style="--i:4">
+        <a
+          href={site.cvPath}
+          download
+          class="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-paper shadow-sm transition-all duration-200 hover:bg-accent-strong hover:shadow-md"
+        >
+          <Icon name="download" class="h-4 w-4" />
+          Download CV
+        </a>
+
+        {
+          socials.map((s) => (
+            <a
+              href={s.href}
+              {...(s.external ? { target: "_blank", rel: "noopener" } : {})}
+              class="inline-flex items-center gap-2 rounded-xl border border-edge px-4 py-3 text-sm font-medium text-ink transition-colors duration-200 hover:border-accent hover:text-accent"
+            >
+              <Icon name={s.icon} class="h-4 w-4" />
+              {s.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Portrait — order-first on mobile so the face shows immediately, right column on desktop */}
+    <div class="order-first lg:order-2 lg:justify-self-end">
+      <div class="portrait reveal-portrait" style="--i:1">
+        <Image
+          src={headshot}
+          alt={`Portrait of ${site.name}`}
+          widths={[256, 384, 512, 704]}
+          sizes="(max-width: 1024px) 14rem, 22rem"
+          class="relative z-10 aspect-[4/5] w-full rounded-2xl border border-edge object-cover shadow-xl"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Staggered load — one orchestrated entrance. */
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-portrait-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97) translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .reveal {
+    animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+  .reveal-portrait {
+    animation: hero-portrait-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+
+  /* Portrait frame: an offset accent rule behind the image (editorial touch). */
+  .portrait {
+    position: relative;
+    width: 14rem;
+  }
+  .portrait::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transform: translate(0.85rem, 0.85rem);
+    border: 1px solid var(--accent);
+    border-radius: 1rem;
+    opacity: 0.45;
+  }
+  @media (min-width: 1024px) {
+    .portrait {
+      width: 22rem;
+    }
+  }
+
+  /* Respect reduced-motion: show everything immediately, no delay. */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-portrait {
+      animation: none;
+    }
+  }
+</style>
