@@ -78,3 +78,12 @@ See each collection's `_README.md` for the exact frontmatter fields.
 6. Responsive, WCAG AA, keyboard accessible, alt text on every image, Lighthouse 90s+, light/dark.
 
 Commit to git after each working section.
+
+## Deploy (GitHub Pages, root user-site)
+
+Deployed via `.github/workflows/deploy.yml` (Astro's official `withastro/action`) on
+push to `main`. Served at the root `https://afridimozumder.github.io/` (repo named
+`afridimozumder.github.io`), so `astro.config` needs `site` set but **no `base`**.
+One-time setup: GitHub repo → Settings → Pages → Source = **GitHub Actions**.
+If a custom domain is added later, update `site` in `astro.config.mjs` and the
+`Sitemap:` URL in `public/robots.txt`.
