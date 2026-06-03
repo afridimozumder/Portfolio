@@ -1,0 +1,23 @@
+---
+// Consistent eyebrow + heading used across every home section.
+interface Props {
+  eyebrow: string;
+  title: string;
+  class?: string;
+}
+const { eyebrow, title, class: className = "" } = Astro.props;
+---
+
+<div class={className}>
+  <p
+    class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-accent sm:text-sm"
+  >
+    <span class="h-px w-8 bg-accent"></span>
+    {eyebrow}
+  </p>
+  <h2
+    class="mt-4 text-[length:var(--text-h2)] leading-[var(--text-h2--line-height)] tracking-[-0.015em]"
+  >
+    {title}
+  </h2>
+</div>

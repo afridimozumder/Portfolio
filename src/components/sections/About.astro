@@ -1,0 +1,19 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import { about } from "../../data/profile";
+---
+
+<section id="about" class="border-t border-edge/60">
+  <div
+    class="container-page grid gap-x-16 gap-y-8 py-[var(--spacing-section)] lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)]"
+  >
+    <SectionHeading
+      eyebrow="About"
+      title={about.title}
+      class="self-start lg:sticky lg:top-24"
+    />
+    <div class="max-w-2xl space-y-5 text-lg leading-relaxed text-muted sm:text-xl">
+      {about.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+</section>
