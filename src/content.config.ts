@@ -10,7 +10,7 @@ const experience = defineCollection({
     role: z.string(),
     org: z.string(),
     location: z.string().optional(),
-    start: z.string(), // human label, e.g. "May 2023"
+    start: z.string().optional(), // human label, e.g. "May 2023" (omit if unknown)
     end: z.string().optional(), // omit if current
     current: z.boolean().default(false),
     relevanceRank: z.number(),

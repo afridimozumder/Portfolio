@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const items = (await getCollection("education")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const years = (d: (typeof items)[number]["data"]) =>
+  `${d.start}${d.end ? ` – ${d.end}` : d.current ? " – Present" : ""}`;
+---
+
+<section id="education" class="border-t border-edge/60">
+  <div class="container-page py-[var(--spacing-section)]">
+    <SectionHeading eyebrow="Education" title="Academic background" />
+
+    <ul class="mt-12 space-y-8">
+      {
+        items.map((item) => {
+          const d = item.data;
+          return (
+            <li class="flex flex-col gap-1 border-l-2 border-edge py-1 pl-6 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8 sm:pl-8">
+              <div>
+                <h3 class="font-display text-lg leading-snug sm:text-xl">
+                  {d.degree}
+                </h3>
+                <p class="mt-0.5 text-muted">
+                  {d.institution}
+                  {d.location && (
+                    <span class="text-faint"> · {d.location}</span>
+                  )}
+                </p>
+                {d.note && <p class="mt-1 text-sm text-faint">{d.note}</p>}
+              </div>
+              <p class="shrink-0 text-sm font-medium text-muted">{years(d)}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

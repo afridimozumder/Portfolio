@@ -1,0 +1,57 @@
+---
+import { getCollection } from "astro:content";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+// Ordered by RELEVANCE, not date (skill rule). Network Engineer + TA first.
+const items = (await getCollection("experience")).sort(
+  (a, b) => a.data.relevanceRank - b.data.relevanceRank,
+);
+
+const dateLabel = (d: (typeof items)[number]["data"]) => {
+  if (!d.start) return null;
+  return `${d.start} – ${d.current ? "Present" : (d.end ?? "Present")}`;
+};
+---
+
+<section id="experience" class="border-t border-edge/60">
+  <div class="container-page py-[var(--spacing-section)]">
+    <SectionHeading eyebrow="Experience" title="Where I've worked" />
+
+    <ol class="mt-12 space-y-px">
+      {
+        items.map((item) => {
+          const d = item.data;
+          const dates = dateLabel(d);
+          return (
+            <li class="grid gap-y-3 border-l-2 border-edge py-7 pl-6 transition-colors hover:border-accent sm:pl-8 lg:grid-cols-[minmax(0,0.26fr)_minmax(0,0.74fr)] lg:gap-x-10">
+              <div class="text-sm text-faint">
+                {dates && <p class="font-medium text-muted">{dates}</p>}
+                {d.location && <p class="mt-0.5">{d.location}</p>}
+              </div>
+
+              <div>
+                <h3 class="font-display text-lg leading-snug sm:text-xl">
+                  {d.role}
+                </h3>
+                <p class="mt-0.5 font-medium text-accent">{d.org}</p>
+
+                <ul class="mt-4 space-y-2.5">
+                  {d.bullets.map((b) => (
+                    <li class="flex gap-3 leading-relaxed text-muted">
+                      <span class="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent/70" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {d.frame && (
+                  <p class="mt-4 text-sm italic text-faint">{d.frame}</p>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>
