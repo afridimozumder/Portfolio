@@ -55,6 +55,7 @@ const certifications = defineCollection({
     provider: z.string().optional(),
     progress: z.number().min(0).max(100).optional(),
     note: z.string().optional(),
+    highlight: z.boolean().default(false), // CRISC = strongest GRC signal
     order: z.number().default(0),
   }),
 });

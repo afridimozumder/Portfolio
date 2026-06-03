@@ -1,0 +1,114 @@
+---
+import { getCollection } from "astro:content";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const all = await getCollection("certifications");
+const byOrder = (a: any, b: any) => a.data.order - b.data.order;
+const inProgress = all.filter((c) => c.data.status === "in-progress").sort(byOrder);
+const planned = all.filter((c) => c.data.status === "planned").sort(byOrder);
+const courses = all.filter((c) => c.data.status === "course").sort(byOrder);
+---
+
+<section id="certifications" class="border-t border-edge/60">
+  <div class="container-page py-[var(--spacing-section)]">
+    <SectionHeading eyebrow="Certifications & Learning" title="Credentials & roadmap" />
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+      Split honestly by status — nothing here is claimed as earned that isn't.
+    </p>
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
+      {/* In progress */}
+      <div>
+        <h3 class="text-xs font-semibold uppercase tracking-[0.18em] text-faint">
+          In progress
+        </h3>
+        <ul class="mt-5 space-y-6">
+          {
+            inProgress.map((c) => (
+              <li>
+                <div class="flex items-baseline justify-between gap-3">
+                  <p class="font-medium leading-snug text-ink">{c.data.name}</p>
+                  <span class="shrink-0 text-sm tabular-nums text-accent">
+                    {c.data.progress}%
+                  </span>
+                </div>
+                {c.data.provider && (
+                  <p class="mt-0.5 text-sm text-faint">{c.data.provider}</p>
+                )}
+                <div class="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-elevated">
+                  <div
+                    class="h-full rounded-full bg-accent"
+                    style={`width:${c.data.progress ?? 0}%`}
+                  />
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Planned */}
+      <div>
+        <h3 class="text-xs font-semibold uppercase tracking-[0.18em] text-faint">
+          Planned
+        </h3>
+        <ul class="mt-5 space-y-3">
+          {
+            planned.map((c) => (
+              <li
+                class={`rounded-lg border px-4 py-3 ${
+                  c.data.highlight
+                    ? "border-accent/40 bg-accent-soft/50"
+                    : "border-edge"
+                }`}
+              >
+                <div class="flex items-start gap-2">
+                  {c.data.highlight && (
+                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  )}
+                  <div>
+                    <p
+                      class={`font-medium leading-snug ${c.data.highlight ? "text-accent-strong" : "text-ink"}`}
+                    >
+                      {c.data.name}
+                    </p>
+                    {c.data.provider && (
+                      <p class="mt-0.5 text-sm text-faint">{c.data.provider}</p>
+                    )}
+                    {c.data.note && (
+                      <p class="mt-1.5 text-sm leading-relaxed text-muted">
+                        {c.data.note}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Courses */}
+      <div>
+        <h3 class="text-xs font-semibold uppercase tracking-[0.18em] text-faint">
+          Courses
+        </h3>
+        <p class="mt-5 text-sm leading-relaxed text-muted">
+          Short AI-literacy courses completed — context, not headline credentials.
+        </p>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {
+            courses.map((c) => (
+              <li class="rounded-md border border-edge px-3 py-1.5 text-sm text-muted">
+                {c.data.name}
+                {c.data.provider && (
+                  <span class="text-faint"> · {c.data.provider}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

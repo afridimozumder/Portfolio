@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import Icon from "./ui/Icon.astro";
 import { site } from "../data/site";
 
 const links = [
@@ -40,6 +41,53 @@ const links = [
         }
       </ul>
       <ThemeToggle />
+      <button
+        type="button"
+        id="menu-btn"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-edge text-muted transition-colors hover:text-ink md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Icon name="menu" class="menu-open h-5 w-5" />
+        <Icon name="close" class="menu-close hidden h-5 w-5" />
+      </button>
     </div>
   </nav>
+
+  {/* Mobile menu */}
+  <div id="mobile-menu" class="hidden border-t border-edge/70 md:hidden">
+    <ul class="container-page flex flex-col gap-1 py-4">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="block rounded-md px-3 py-3 text-base text-muted transition-colors hover:bg-elevated hover:text-ink"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </header>
+
+<script>
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const setOpen = (open: boolean) => {
+    menu?.classList.toggle("hidden", !open);
+    btn?.setAttribute("aria-expanded", String(open));
+    btn?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    btn?.querySelector(".menu-open")?.classList.toggle("hidden", open);
+    btn?.querySelector(".menu-close")?.classList.toggle("hidden", !open);
+  };
+  btn?.addEventListener("click", () =>
+    setOpen(menu?.classList.contains("hidden") ?? false),
+  );
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => setOpen(false)),
+  );
+</script>

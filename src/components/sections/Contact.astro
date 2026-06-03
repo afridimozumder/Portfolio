@@ -1,0 +1,68 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import Icon from "../ui/Icon.astro";
+import { site } from "../../data/site";
+
+const channels = [
+  { label: "Email", value: site.email, href: `mailto:${site.email}`, icon: "mail" as const, external: false },
+  { label: "LinkedIn", value: "/in/ahmedafridi", href: site.links.linkedin, icon: "linkedin" as const, external: true },
+  { label: "GitHub", value: "/afridimozumder", href: site.links.github, icon: "github" as const, external: true },
+];
+---
+
+<section id="contact" class="border-t border-edge/60">
+  <div class="container-page py-[var(--spacing-section)]">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,0.5fr)_minmax(0,0.5fr)] lg:gap-16">
+      <div>
+        <SectionHeading eyebrow="Contact" title="Let's talk" />
+        <p class="mt-6 max-w-md text-lg leading-relaxed text-muted">
+          Open to GRC and cybersecurity opportunities — and always happy to talk
+          threat intelligence, risk, or the thesis. Email is the fastest way to
+          reach me.
+        </p>
+        <p class="mt-6 flex items-center gap-2 text-sm text-faint">
+          <Icon name="pin" class="h-4 w-4 text-accent" />
+          {site.location}
+        </p>
+        <a
+          href={site.cvPath}
+          download
+          class="mt-8 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-paper shadow-sm transition-all duration-200 hover:bg-accent-strong hover:shadow-md"
+        >
+          <Icon name="download" class="h-4 w-4" />
+          Download CV
+        </a>
+      </div>
+
+      <ul class="flex flex-col divide-y divide-edge/70 lg:border-y lg:border-edge/70">
+        {
+          channels.map((c) => (
+            <li>
+              <a
+                href={c.href}
+                {...(c.external ? { target: "_blank", rel: "noopener" } : {})}
+                class="group flex items-center gap-4 py-5"
+              >
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-edge text-muted transition-colors group-hover:border-accent group-hover:text-accent">
+                  <Icon name={c.icon} class="h-5 w-5" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-xs font-semibold uppercase tracking-wider text-faint">
+                    {c.label}
+                  </span>
+                  <span class="block truncate text-ink transition-colors group-hover:text-accent">
+                    {c.value}
+                  </span>
+                </span>
+                <Icon
+                  name="arrow"
+                  class="ml-auto h-4 w-4 shrink-0 text-faint transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
