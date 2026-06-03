@@ -10,7 +10,9 @@ const description =
 
 // Pre-generate large renditions for the lightbox (full-size view).
 const fulls = await Promise.all(
-  photos.map((p) => getImage({ src: p.src, width: 1600, format: "webp" })),
+  photos.map((p) =>
+    getImage({ src: p.src, width: 1600, format: "webp", quality: 70 }),
+  ),
 );
 ---
 

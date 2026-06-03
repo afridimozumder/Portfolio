@@ -45,7 +45,7 @@
   --elevated: #f3efe8;
   --ink: #1b1a17;
   --muted: #58534b;
-  --faint: #8a8378;
+  --faint: #6e685d; /* AA-compliant on paper + surface (was #8a8378, 3.54:1) */
   --edge: #e6e0d6;
   --accent: #0e6e66;
   --accent-strong: #0a524c;
@@ -59,7 +59,7 @@
   --elevated: #23201a;
   --ink: #f3efe8;
   --muted: #b3ac9f;
-  --faint: #847d70;
+  --faint: #938c7e; /* AA-compliant on paper + surface + elevated (was #847d70, 4.31:1 on surface) */
   --edge: #2f2b23;
   --accent: #3fb8ab;
   --accent-strong: #6fd3c8;
