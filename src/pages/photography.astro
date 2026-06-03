@@ -1,22 +1,114 @@
 ---
+import { Image, getImage } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/ui/Icon.astro";
+import { photos } from "../data/photos";
 
 const title = "Photography — Shorif Ahmed Afridi Mozumder";
-const description = "A personal photography and travel gallery.";
+const description =
+  "A personal photography and travel gallery — Copenhagen and beyond.";
+
+// Pre-generate large renditions for the lightbox (full-size view).
+const fulls = await Promise.all(
+  photos.map((p) => getImage({ src: p.src, width: 1600, format: "webp" })),
+);
 ---
 
 <BaseLayout title={title} description={description}>
-  {/* Empty shell. The responsive grid + lightbox gallery is built in Phase 3. */}
   <section class="container-page py-[var(--spacing-section)]">
-    <p class="text-sm font-medium uppercase tracking-[0.2em] text-accent">
+    <p class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-accent sm:text-sm">
+      <span class="h-px w-8 bg-accent"></span>
       Photography
     </p>
-    <h1 class="mt-4 text-[length:var(--text-h2)] leading-[var(--text-h2--line-height)]">
-      Gallery coming soon.
+    <h1 class="mt-4 text-[length:var(--text-h2)] leading-[var(--text-h2--line-height)] tracking-[-0.015em]">
+      Copenhagen & beyond
     </h1>
-    <p class="mt-5 max-w-xl text-lg text-muted">
-      Images are imported and optimised through Astro's pipeline; the grid and
-      lightbox land in Phase 3.
+    <p class="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+      A personal collection from around the city and my travels. Click any image
+      to view it larger.
     </p>
+
+    {/* Masonry grid */}
+    <div class="mt-12 gap-4 [column-fill:_balance] columns-2 sm:columns-3 lg:columns-4">
+      {
+        photos.map((p, i) => (
+          <button
+            type="button"
+            class="lightbox-trigger mb-4 block w-full overflow-hidden rounded-xl border border-edge break-inside-avoid"
+            data-full={fulls[i].src}
+            data-alt={p.alt}
+            aria-label={`View larger: ${p.alt}`}
+          >
+            <Image
+              src={p.src}
+              alt={p.alt}
+              widths={[300, 500, 700]}
+              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+              class="w-full transition-transform duration-500 hover:scale-[1.03]"
+              loading="lazy"
+            />
+          </button>
+        ))
+      }
+    </div>
   </section>
+
+  {/* Lightbox */}
+  <div
+    id="lightbox"
+    class="fixed inset-0 z-50 hidden cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Enlarged photo"
+  >
+    <button
+      id="lightbox-close"
+      type="button"
+      class="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white/90 transition-colors hover:bg-white/10"
+      aria-label="Close"
+    >
+      <Icon name="close" class="h-6 w-6" />
+    </button>
+    <img
+      id="lightbox-img"
+      src=""
+      alt=""
+      class="max-h-[90vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
+    />
+  </div>
 </BaseLayout>
+
+<script>
+  const lb = document.getElementById("lightbox")!;
+  const lbImg = document.getElementById("lightbox-img") as HTMLImageElement;
+  const closeBtn = document.getElementById("lightbox-close")!;
+  let lastFocused: HTMLElement | null = null;
+
+  const open = (src: string, alt: string, trigger: HTMLElement) => {
+    lastFocused = trigger;
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.remove("hidden");
+    lb.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  };
+  const close = () => {
+    lb.classList.add("hidden");
+    lb.classList.remove("flex");
+    lbImg.src = "";
+    document.body.style.overflow = "";
+    lastFocused?.focus();
+  };
+
+  document.querySelectorAll<HTMLElement>(".lightbox-trigger").forEach((b) =>
+    b.addEventListener("click", () =>
+      open(b.dataset.full!, b.dataset.alt ?? "", b),
+    ),
+  );
+  // Simple zoom: a click anywhere in the overlay closes it.
+  lb.addEventListener("click", close);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !lb.classList.contains("hidden")) close();
+  });
+</script>
