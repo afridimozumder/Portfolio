@@ -1,5 +1,6 @@
 .claude/
 node_modules/
+*.pdf
 dist/
 .env
 .env.local
