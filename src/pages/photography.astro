@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Photography — Shorif Ahmed Afridi Mozumder";
+const description = "A personal photography and travel gallery.";
+---
+
+<BaseLayout title={title} description={description}>
+  {/* Empty shell. The responsive grid + lightbox gallery is built in Phase 3. */}
+  <section class="container-page py-[var(--spacing-section)]">
+    <p class="text-sm font-medium uppercase tracking-[0.2em] text-accent">
+      Photography
+    </p>
+    <h1 class="mt-4 text-[length:var(--text-h2)] leading-[var(--text-h2--line-height)]">
+      Gallery coming soon.
+    </h1>
+    <p class="mt-5 max-w-xl text-lg text-muted">
+      Images are imported and optimised through Astro's pipeline; the grid and
+      lightbox land in Phase 3.
+    </p>
+  </section>
+</BaseLayout>

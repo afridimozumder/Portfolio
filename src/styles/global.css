@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/* Self-hosted variable fonts (no external CDN — privacy + perf). */
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/public-sans";
+
+/* Dark mode is driven by data-theme on <html>, set before paint (no flash). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+  Design system — "Refined Professional"
+  Semantic tokens live as CSS variables (themeable per light/dark below);
+  `@theme inline` maps them to Tailwind utilities so e.g. `bg-paper`,
+  `text-ink`, `text-accent` resolve to the right value in each mode.
+*/
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-edge: var(--edge);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+
+  --font-display: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "Public Sans Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Editorial type scale */
+  --text-display: clamp(2.75rem, 6vw, 4.5rem);
+  --text-display--line-height: 1.04;
+  --text-h2: clamp(1.75rem, 3.2vw, 2.5rem);
+  --text-h2--line-height: 1.1;
+
+  /* Layout rhythm */
+  --spacing-section: clamp(4rem, 9vw, 7.5rem);
+}
+
+/* Light theme (default) — warm paper, cool teal accent. */
+:root {
+  --paper: #faf8f4;
+  --surface: #ffffff;
+  --elevated: #f3efe8;
+  --ink: #1b1a17;
+  --muted: #58534b;
+  --faint: #8a8378;
+  --edge: #e6e0d6;
+  --accent: #0e6e66;
+  --accent-strong: #0a524c;
+  --accent-soft: #d9ebe8;
+}
+
+/* Dark theme — warm near-black, lifted teal accent for AA contrast. */
+[data-theme="dark"] {
+  --paper: #14130f;
+  --surface: #1b1914;
+  --elevated: #23201a;
+  --ink: #f3efe8;
+  --muted: #b3ac9f;
+  --faint: #847d70;
+  --edge: #2f2b23;
+  --accent: #3fb8ab;
+  --accent-strong: #6fd3c8;
+  --accent-soft: #16332f;
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 560;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--paper);
+  }
+}
+
+@layer components {
+  /* Centered content measure used by the shell + every future section. */
+  .container-page {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 3rem);
+  }
+}

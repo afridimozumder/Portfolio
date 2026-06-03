@@ -1,7 +1,10 @@
 .claude/
 node_modules/
 *.pdf
+# …but the CV needs to ship with the site:
+!public/cv/*.pdf
 dist/
+.astro/
 .env
 .env.local
 .env.*.local
