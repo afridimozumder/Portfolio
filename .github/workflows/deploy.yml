@@ -23,9 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install, build, and upload the site
-        uses: withastro/action@v3 # installs deps, runs `astro build`, uploads the artifact
+        uses: withastro/action@v6 # installs deps, runs `astro build`, uploads the artifact
 
   deploy:
     needs: build
