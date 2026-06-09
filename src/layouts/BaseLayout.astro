@@ -23,7 +23,7 @@ const personSchema = {
   name: site.name,
   url: new URL("/", Astro.site).toString(),
   image: ogImage,
-  jobTitle: "Cybersecurity / GRC",
+  jobTitle: "MSc Cybersecurity Student",
   email: `mailto:${site.email}`,
   address: {
     "@type": "PostalAddress",
@@ -71,6 +71,7 @@ const personSchema = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${site.name} — ${site.positioning}`} />
 
     {/* Structured data */}
     <script
@@ -78,6 +79,9 @@ const personSchema = {
       is:inline
       set:html={JSON.stringify(personSchema)}
     />
+
+    {/* Browser chrome tint; kept in sync with the active theme below + in ThemeToggle. */}
+    <meta name="theme-color" content="#faf8f4" />
 
     {/* Set theme before first paint to avoid a flash of the wrong mode. */}
     <script is:inline>
@@ -87,6 +91,10 @@ const personSchema = {
           ? saved === "dark"
           : window.matchMedia("(prefers-color-scheme: dark)").matches;
         document.documentElement.dataset.theme = dark ? "dark" : "light";
+        // Hex values mirror --paper in global.css (CSS may not be loaded yet here).
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute("content", dark ? "#14130f" : "#faf8f4");
       })();
     </script>
   </head>

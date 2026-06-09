@@ -90,4 +90,10 @@ const links = [
   menu?.querySelectorAll("a").forEach((a) =>
     a.addEventListener("click", () => setOpen(false)),
   );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu && !menu.classList.contains("hidden")) {
+      setOpen(false);
+      btn?.focus();
+    }
+  });
 </script>

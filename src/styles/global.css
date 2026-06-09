@@ -73,6 +73,11 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Anchored sections must land below the sticky 4rem nav, not under it. */
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after {

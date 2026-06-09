@@ -9,7 +9,6 @@ Field reference (see `src/content.config.ts`):
 name: "ISACA CRISC"
 status: "planned"        # earned | course | in-progress | planned
 provider: "ISACA"
-progress: 0              # optional, 0–100 for in-progress items
 note: "Strongest GRC signal — the direction the roadmap builds toward."
 order: 1
 ---

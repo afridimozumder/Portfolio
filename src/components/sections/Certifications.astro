@@ -25,21 +25,18 @@ const courses = all.filter((c) => c.data.status === "course").sort(byOrder);
         <ul class="mt-5 space-y-6">
           {
             inProgress.map((c) => (
-              <li>
-                <div class="flex items-baseline justify-between gap-3">
+              <li class="flex items-start gap-3">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                <div>
                   <p class="font-medium leading-snug text-ink">{c.data.name}</p>
-                  <span class="shrink-0 text-sm tabular-nums text-accent">
-                    {c.data.progress}%
-                  </span>
-                </div>
-                {c.data.provider && (
-                  <p class="mt-0.5 text-sm text-faint">{c.data.provider}</p>
-                )}
-                <div class="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-elevated">
-                  <div
-                    class="h-full rounded-full bg-accent"
-                    style={`width:${c.data.progress ?? 0}%`}
-                  />
+                  {c.data.provider && (
+                    <p class="mt-0.5 text-sm text-faint">{c.data.provider}</p>
+                  )}
+                  {c.data.note && (
+                    <p class="mt-1.5 text-sm leading-relaxed text-muted">
+                      {c.data.note}
+                    </p>
+                  )}
                 </div>
               </li>
             ))

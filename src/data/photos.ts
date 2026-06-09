@@ -9,7 +9,7 @@ import type { ImageMetadata } from "astro";
 
 export interface Photo {
   src: ImageMetadata;
-  /** Meaningful alt text. TODO: fill these in before launch (Phase 3). */
+  /** Meaningful alt text. */
   alt: string;
   caption?: string;
   /** Country for optional gallery grouping (ties in the travel angle). */

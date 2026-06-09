@@ -25,5 +25,10 @@
     const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
     localStorage.setItem("theme", next);
+    // Keep the browser chrome tint in sync (CSS is loaded by now, read the token).
+    const paper = getComputedStyle(root).getPropertyValue("--paper").trim();
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", paper);
   });
 </script>
